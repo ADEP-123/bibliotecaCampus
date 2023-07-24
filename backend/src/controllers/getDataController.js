@@ -1,4 +1,4 @@
-import { getAllAutoresService, getAllCategoriasService, getAllEditorialesService, getAllEstadoLibrosService, getAllLibrosService, getAllPrestamoService, getAllReservaService, getAllUsuariosService, getLibrosDisponiblesService, getLibrosPorAutorService, getLibrosPrestadosService } from "../services/getServices.js";
+import { getAllAutoresService, getAllCategoriasService, getAllEditorialesService, getAllEstadoLibrosService, getAllLibrosService, getAllPrestamoService, getAllReservaService, getAllUsuariosService, getLibrosDisponiblesService, getLibrosPorAutorService, getLibrosPorCategoriaService, getLibrosPrestadosService } from "../services/getServices.js";
 
 
 const getUsuariosController = async (req, res, next) => {
@@ -54,24 +54,28 @@ const getEstadoLibroController = async (req, res, next) => {
 
 const getLibroController = async (req, res, next) => {
     try {
-        const { estado, autor } = req.query
+        const { estado, autor, categoria } = req.query
         console.log(estado);
         let result
         if (autor) {
             result = await getLibrosPorAutorService(autor);
         } else {
-            switch (estado) {
-                case "Disponible":
-                    result = await getLibrosDisponiblesService();
-                    break;
+            if (categoria) {
+                result = await getLibrosPorCategoriaService(categoria);
+            } else {
+                switch (estado) {
+                    case "Disponible":
+                        result = await getLibrosDisponiblesService();
+                        break;
 
-                case "Prestado":
-                    result = await getLibrosPrestadosService();
-                    break;
+                    case "Prestado":
+                        result = await getLibrosPrestadosService();
+                        break;
 
-                default:
-                    result = await getAllLibrosService();
-                    break;
+                    default:
+                        result = await getAllLibrosService();
+                        break;
+                }
             }
         }
         res.status(200).json({ message: `se han encontrado ${result.length} resultados`, result })

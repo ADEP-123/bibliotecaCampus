@@ -144,6 +144,38 @@ class Libro {
         }
     }
 
+    async getlibrosPorCategoria(categoria) {
+        let sql = /*sql*/`
+          SELECT
+          A.id_libro as id,
+          A.id_autor as idAutor,
+          CONCAT(B.nombre,' ', B.apellido) as nomAutor,
+          A.id_categoria as idCategoria,
+          C.nombre as nomCategoria,
+          A.id_editorial as idEditorial,
+          D.nombre as nomEditorial,
+          A.titulo as titulo,
+          A.anio_publicacion as publicadoEn,
+          A.isbn as isbn,
+          A.num_paginas as paginas,
+          A.id_estado as idEstado,
+          E.nombre as nomEstadoLibro
+          FROM libro A
+          JOIN autor B ON A.id_autor = B.id_autor
+          JOIN categoria C ON A.id_categoria = C.id_categoria
+          JOIN editorial D ON A.id_editorial = D.id_editorial
+          JOIN estado_libro E ON A.id_estado = E.id_estado
+          WHERE C.nombre = \'${categoria}\'`;
+        try {
+            const result = await executeQuery(sql);
+            return result.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+    
+    
+
 
 }
 
