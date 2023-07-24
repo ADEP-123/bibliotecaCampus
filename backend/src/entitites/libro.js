@@ -54,25 +54,59 @@ class Libro {
     async getLibrosDisponibles() {
         let sql = /*sql*/`
           SELECT
-          id_libro as id,
-          id_autor as idAutor,
-          nombre as nomAutor,
-          id_categoria as idCategoria,
-          nombre as nomCategoria,
-          id_editorial as idEditorial,
-          nombre as nomEditorial,
-          titulo as titulo,
-          anio_publicacion as publicadoEn,
-          isbn as isbn,
-          num_paginas as paginas,
-          id_estado as idEstado,
-          nombre as nomEstadoLibro
+          A.id_libro as id,
+          A.id_autor as idAutor,
+          B.nombre as nomAutor,
+          A.id_categoria as idCategoria,
+          C.nombre as nomCategoria,
+          A.id_editorial as idEditorial,
+          D.nombre as nomEditorial,
+          A.titulo as titulo,
+          A.anio_publicacion as publicadoEn,
+          A.isbn as isbn,
+          A.num_paginas as paginas,
+          A.id_estado as idEstado,
+          E.nombre as nomEstadoLibro
           FROM libro A
           JOIN autor B ON A.id_autor = B.id_autor
           JOIN categoria C ON A.id_categoria = C.id_categoria
           JOIN editorial D ON A.id_editorial = D.id_editorial
           JOIN estado_libro E ON A.id_estado = E.id_estado
           WHERE E.nombre = "Disponible"`;
+        try {
+            const result = await executeQuery(sql);
+            return result.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getLibrosPrestados() {
+        let sql = /*sql*/`
+          SELECT
+          A.id_prestamo as id,
+          A.id_libro as idLibro,
+          B.id_autor as idAutor,
+          C.nombre as nomAutor,
+          B.id_categoria as idCategoria,
+          D.nombre as nomCategoria,
+          B.id_editorial as idEditorial,
+          E.nombre as nomEditorial,
+          B.titulo as titulo,
+          B.anio_publicacion as publicadoEn,
+          B.isbn as isbn,
+          B.num_paginas as paginas,
+          B.id_estado as idEstado,
+          F.nombre as nomEstadoLibro,
+          A.fecha_prestamo as fechaPrestamo,
+          A.fecha_devolucion as fechaDevolucion
+          FROM prestamo A
+          JOIN libro B ON A.id_libro = B.id_libro
+          JOIN autor C ON B.id_autor = C.id_autor
+          JOIN categoria D ON B.id_categoria = D.id_categoria
+          JOIN editorial E ON B.id_editorial = E.id_editorial
+          JOIN estado_libro F ON B.id_estado = F.id_estado
+          WHERE F.nombre = "Prestado"`;
         try {
             const result = await executeQuery(sql);
             return result.data;

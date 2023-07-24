@@ -1,4 +1,4 @@
-import { getAllAutoresService, getAllCategoriasService, getAllEditorialesService, getAllEstadoLibrosService, getAllLibrosService, getAllPrestamoService, getAllReservaService, getAllUsuariosService, getLibrosDisponiblesService } from "../services/getServices.js";
+import { getAllAutoresService, getAllCategoriasService, getAllEditorialesService, getAllEstadoLibrosService, getAllLibrosService, getAllPrestamoService, getAllReservaService, getAllUsuariosService, getLibrosDisponiblesService, getLibrosPrestadosService } from "../services/getServices.js";
 
 
 const getUsuariosController = async (req, res, next) => {
@@ -57,10 +57,18 @@ const getLibroController = async (req, res, next) => {
         const { estado } = req.query
         console.log(estado);
         let result
-        if (estado == "Disponible") {
-            result = await getLibrosDisponiblesService();
-        } else {
-            result = await getAllLibrosService();
+        switch (estado) {
+            case "Disponible":
+                result = await getLibrosDisponiblesService();
+                break;
+
+            case "Prestado":
+                result = await getLibrosPrestadosService();
+                break;
+
+            default:
+                result = await getAllLibrosService();
+                break;
         }
         res.status(200).json({ message: `se han encontrado ${result.length} resultados`, result })
     } catch (error) {

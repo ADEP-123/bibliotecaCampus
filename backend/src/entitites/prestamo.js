@@ -25,7 +25,7 @@ class Prestamo {
           fecha_prestamo as fechaPrestamo,
           fecha_devolucion as fechaDevolucion,
           estado as estado,
-          FROM presatmo`;
+          FROM prestamo`;
         try {
             const result = await executeQuery(sql);
             return result.data;
