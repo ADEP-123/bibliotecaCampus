@@ -8,7 +8,7 @@
 ---
 ## Diagrama Entidad Relacion
 ---
-![Diagrama Entidad Relacion de la base de datos](./imgs/baseDatos.png)
+![Diagrama Entidad Relacion de la base de datos](./img/baseDatos.png)
 
 ---
 ## Modo de uso:
