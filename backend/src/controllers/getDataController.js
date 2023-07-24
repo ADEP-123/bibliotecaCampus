@@ -55,7 +55,6 @@ const getEstadoLibroController = async (req, res, next) => {
 const getLibroController = async (req, res, next) => {
     try {
         const { estado, autor, categoria, paginas } = req.query
-        console.log(estado);
         let result
         if (autor) {
             result = await getLibrosPorAutorService(autor);
@@ -72,14 +71,13 @@ const getLibroController = async (req, res, next) => {
                 case "Prestado":
                     result = await getLibrosPrestadosService();
                     break;
-
-                default:
-                    result = await getAllLibrosService();
-                    break;
             }
         }
         if (paginas) {
             result = await getLibrosPorPaginasService(paginas);
+        }
+        if (!estado && !autor && !categoria && !paginas) {
+            result = await getAllLibrosService();
         }
         res.status(200).json({ message: `se han encontrado ${result.length} resultados`, result })
     } catch (error) {
@@ -90,11 +88,17 @@ const getLibroController = async (req, res, next) => {
 
 const getPrestamoController = async (req, res, next) => {
     try {
-        const { usuario } = req.query
+        const { usuario, estado } = req.query
         let result;
-        if (usuario) {
+        if (usuario && !estado) {
             result = await getPrestamoByUsuarioService(usuario)
-        } else { result = await getAllPrestamoService() }
+        }
+        if (!usuario && !estado) {
+            result = await getAllPrestamoService()
+        }
+        if (usuario && estado == "Prestado") {
+            result = await getLibrosPrestadosService(usuario)
+        }
         res.status(200).json({ message: `se han encontrado ${result.length} resultados`, result })
     } catch (error) {
         res.status(500).json(error);
