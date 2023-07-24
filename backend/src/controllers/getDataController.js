@@ -1,4 +1,4 @@
-import { getAllAutoresService, getAllCategoriasService, getAllEditorialesService, getAllUsuariosService } from "../services/getServices.js";
+import { getAllAutoresService, getAllCategoriasService, getAllEditorialesService, getAllEstadoLibrosService, getAllUsuariosService } from "../services/getServices.js";
 
 
 const getUsuariosController = async (req, res, next) => {
@@ -41,9 +41,20 @@ const getEditorialController = async (req, res, next) => {
     }
 };
 
+const getEstadoLibroController = async (req, res, next) => {
+    try {
+        const { } = req.query
+        const result = await getAllEstadoLibrosService();
+        res.status(200).json({ message: `se han encontrado ${result.length} resultados`, result })
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
+
 export {
     getUsuariosController,
     getAutoresController,
     getCategoriaController,
-    getEditorialController
+    getEditorialController,
+    getEstadoLibroController
 }

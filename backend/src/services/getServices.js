@@ -1,6 +1,7 @@
 import Autor from "../entitites/autores.js";
 import Categoria from "../entitites/categoria.js";
 import Editorial from "../entitites/editorial.js";
+import EstadoLibro from "../entitites/estadoLibro.js";
 import Usuario from "../entitites/usuario.js";
 
 const getAllUsuariosService = async () => {
@@ -27,9 +28,16 @@ const getAllEditorialesService = async () => {
     return result;
 };
 
+const getAllEstadoLibrosService = async () => {
+    const estadoLibro = new EstadoLibro();
+    const result = await estadoLibro.getAllEstadoLibro();
+    return result;
+};
+
 export {
     getAllUsuariosService,
     getAllAutoresService,
     getAllCategoriasService,
-    getAllEditorialesService
+    getAllEditorialesService,
+    getAllEstadoLibrosService
 }
