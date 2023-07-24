@@ -3,6 +3,7 @@ import Categoria from "../entitites/categoria.js";
 import Editorial from "../entitites/editorial.js";
 import EstadoLibro from "../entitites/estadoLibro.js";
 import Libro from "../entitites/libro.js";
+import Prestamo from "../entitites/presamo.js";
 import Usuario from "../entitites/usuario.js";
 
 const getAllUsuariosService = async () => {
@@ -41,11 +42,18 @@ const getAllLibrosService = async () => {
     return result;
 };
 
+const getAllPrestamoService = async () => {
+    const prestamo = new Prestamo();
+    const result = await prestamo.getAllPrestamos();
+    return result;
+};
+
 export {
     getAllUsuariosService,
     getAllAutoresService,
     getAllCategoriasService,
     getAllEditorialesService,
     getAllEstadoLibrosService,
-    getAllLibrosService
+    getAllLibrosService,
+    getAllPrestamoService
 }

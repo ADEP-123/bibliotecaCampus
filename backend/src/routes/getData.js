@@ -10,6 +10,7 @@ const getInitRoute = () => {
     router.get("/editoriales", getEditorialController)
     router.get("/estadoLibros", getEstadoLibroController)
     router.get("/libros", getLibroController)
+    router.get("/prestamos", getLibroController)
 
     return router;
 };
