@@ -1,4 +1,4 @@
-import { getAllAutoresService, getAllCategoriasService, getAllUsuariosService } from "../services/getServices.js";
+import { getAllAutoresService, getAllCategoriasService, getAllEditorialesService, getAllUsuariosService } from "../services/getServices.js";
 
 
 const getUsuariosController = async (req, res, next) => {
@@ -31,8 +31,19 @@ const getCategoriaController = async (req, res, next) => {
     }
 };
 
+const getEditorialController = async (req, res, next) => {
+    try {
+        const { } = req.query
+        const result = await getAllEditorialesService();
+        res.status(200).json({ message: `se han encontrado ${result.length} resultados`, result })
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
+
 export {
     getUsuariosController,
     getAutoresController,
-    getCategoriaController
+    getCategoriaController,
+    getEditorialController
 }

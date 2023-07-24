@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAutoresController, getCategoriaController, getUsuariosController } from "../controllers/getDataController.js";
+import { getAutoresController, getCategoriaController, getEditorialController, getUsuariosController } from "../controllers/getDataController.js";
 
 
 const getInitRoute = () => {
@@ -7,6 +7,7 @@ const getInitRoute = () => {
     router.get("/usuario", getUsuariosController)
     router.get("/autores", getAutoresController)
     router.get("/categorias", getCategoriaController)
+    router.get("/editoriales", getEditorialController)
 
     return router;
 };
