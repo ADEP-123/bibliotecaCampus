@@ -1,4 +1,4 @@
-import { getAllAutoresService, getAllCategoriasService, getAllEditorialesService, getAllEstadoLibrosService, getAllLibrosService, getAllPrestamoService, getAllReservaService, getAllUsuariosService, getLibrosDisponiblesService, getLibrosPorAutorService, getLibrosPorCategoriaService, getLibrosPrestadosService, getPrestamoByUsuarioService } from "../services/getServices.js";
+import { getAllAutoresService, getAllCategoriasService, getAllEditorialesService, getAllEstadoLibrosService, getAllLibrosService, getAllPrestamoService, getAllReservaService, getAllUsuariosService, getLibrosDisponiblesService, getLibrosPorAutorService, getLibrosPorCategoriaService, getLibrosPorPaginasService, getLibrosPrestadosService, getPrestamoByUsuarioService } from "../services/getServices.js";
 
 
 const getUsuariosController = async (req, res, next) => {
@@ -54,29 +54,32 @@ const getEstadoLibroController = async (req, res, next) => {
 
 const getLibroController = async (req, res, next) => {
     try {
-        const { estado, autor, categoria } = req.query
+        const { estado, autor, categoria, paginas } = req.query
         console.log(estado);
         let result
         if (autor) {
             result = await getLibrosPorAutorService(autor);
-        } else {
-            if (categoria) {
-                result = await getLibrosPorCategoriaService(categoria);
-            } else {
-                switch (estado) {
-                    case "Disponible":
-                        result = await getLibrosDisponiblesService();
-                        break;
+        }
+        if (categoria) {
+            result = await getLibrosPorCategoriaService(categoria);
+        }
+        if (estado) {
+            switch (estado) {
+                case "Disponible":
+                    result = await getLibrosDisponiblesService();
+                    break;
 
-                    case "Prestado":
-                        result = await getLibrosPrestadosService();
-                        break;
+                case "Prestado":
+                    result = await getLibrosPrestadosService();
+                    break;
 
-                    default:
-                        result = await getAllLibrosService();
-                        break;
-                }
+                default:
+                    result = await getAllLibrosService();
+                    break;
             }
+        }
+        if (paginas) {
+            result = await getLibrosPorPaginasService(paginas);
         }
         res.status(200).json({ message: `se han encontrado ${result.length} resultados`, result })
     } catch (error) {
