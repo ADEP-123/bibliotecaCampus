@@ -73,6 +73,12 @@ const getAllPrestamoService = async () => {
     return result;
 };
 
+const getPrestamoByUsuarioService = async (usuario) => {
+    const prestamo = new Prestamo();
+    const result = await prestamo.getPrestamoByUsuario(usuario);
+    return result;
+};
+
 const getAllReservaService = async () => {
     const reserva = new Reserva();
     const result = await reserva.getAllReserva();
@@ -91,5 +97,6 @@ export {
     getLibrosPorAutorService,
     getLibrosPorCategoriaService,
     getAllPrestamoService,
+    getPrestamoByUsuarioService,
     getAllReservaService
 }
