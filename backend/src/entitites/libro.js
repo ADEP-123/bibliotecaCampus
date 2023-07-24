@@ -51,6 +51,36 @@ class Libro {
         }
     }
 
+    async getLibrosDisponibles() {
+        let sql = /*sql*/`
+          SELECT
+          id_libro as id,
+          id_autor as idAutor,
+          nombre as nomAutor,
+          id_categoria as idCategoria,
+          nombre as nomCategoria,
+          id_editorial as idEditorial,
+          nombre as nomEditorial,
+          titulo as titulo,
+          anio_publicacion as publicadoEn,
+          isbn as isbn,
+          num_paginas as paginas,
+          id_estado as idEstado,
+          nombre as nomEstadoLibro
+          FROM libro A
+          JOIN autor B ON A.id_autor = B.id_autor
+          JOIN categoria C ON A.id_categoria = C.id_categoria
+          JOIN editorial D ON A.id_editorial = D.id_editorial
+          JOIN estado_libro E ON A.id_estado = E.id_estado
+          WHERE E.nombre = "Disponible"`;
+        try {
+            const result = await executeQuery(sql);
+            return result.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
 
 }
 
