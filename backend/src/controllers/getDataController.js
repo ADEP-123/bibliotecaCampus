@@ -1,4 +1,4 @@
-import { getAllAutoresService, getAllCategoriasService, getAllEditorialesService, getAllEstadoLibrosService, getAllLibrosService, getAllPrestamoService, getAllReservaService, getAllUsuariosService, getLibrosDisponiblesService, getLibrosPorAutorService, getLibrosPorCategoriaService, getLibrosPorPaginasService, getLibrosPrestadosService, getPrestamoByUsuarioService } from "../services/getServices.js";
+import { getAllAutoresService, getAllCategoriasService, getAllEditorialesService, getAllEstadoLibrosService, getAllLibrosService, getAllPrestamoService, getAllReservaService, getAllUsuariosService, getAutoresByNacionalidadService, getLibrosDisponiblesService, getLibrosPorAutorService, getLibrosPorCategoriaService, getLibrosPorPaginasService, getLibrosPrestadosService, getPrestamoByUsuarioService } from "../services/getServices.js";
 
 
 const getUsuariosController = async (req, res, next) => {
@@ -13,8 +13,13 @@ const getUsuariosController = async (req, res, next) => {
 
 const getAutoresController = async (req, res, next) => {
     try {
-        const { } = req.query
-        const result = await getAllAutoresService();
+        const { nacionalidad } = req.query
+        let result;
+        if (nacionalidad) {
+            result = await getAutoresByNacionalidadService(nacionalidad);
+        } else {
+            result = await getAllAutoresService();
+        }
         res.status(200).json({ message: `se han encontrado ${result.length} resultados`, result })
     } catch (error) {
         res.status(500).json(error);

@@ -28,6 +28,23 @@ class Autor {
         }
     }
 
+    async getAutoresByNacionalidad(nacionalidad) {
+        let sql = /*sql*/`
+          SELECT
+          id_autor as id,
+          nombre as nombres,
+          apellido as apellidos,
+          nacionalidad as origen
+          FROM autor
+          WHERE nacionalidad = \'${nacionalidad}\'`;
+        try {
+            const result = await executeQuery(sql);
+            return result.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
 
 }
 

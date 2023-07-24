@@ -19,6 +19,12 @@ const getAllAutoresService = async () => {
     return result;
 };
 
+const getAutoresByNacionalidadService = async (nacionalidad) => {
+    const autor = new Autor();
+    const result = await autor.getAutoresByNacionalidad(nacionalidad);
+    return result;
+};
+
 const getAllCategoriasService = async () => {
     const categoria = new Categoria();
     const result = await categoria.getAllCategorias();
@@ -106,5 +112,6 @@ export {
     getLibrosPorPaginasService,
     getAllPrestamoService,
     getPrestamoByUsuarioService,
-    getAllReservaService
+    getAllReservaService,
+    getAutoresByNacionalidadService
 }
