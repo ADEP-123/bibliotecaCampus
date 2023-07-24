@@ -8,8 +8,8 @@ class Libro {
     titulo
     anio_publicacion;
     isbn;
-    num_paginas
-    id_estado
+    num_paginas;
+    id_estado;
     constructor(id, idAutor, idCategoria, idEditorial, titulo, publicadoEn, isbn, paginas, idEstado) {
         this.id_libro = id;
         this.id_autor = idAutor;
@@ -27,7 +27,7 @@ class Libro {
           SELECT
           A.id_libro as id,
           A.id_autor as idAutor,
-          B.nombre as nomAutor,
+          CONCAT(B.nombre,' ', B.apellido) as nomAutor,
           A.id_categoria as idCategoria,
           C.nombre as nomCategoria,
           A.id_editorial as idEditorial,
@@ -56,7 +56,7 @@ class Libro {
           SELECT
           A.id_libro as id,
           A.id_autor as idAutor,
-          B.nombre as nomAutor,
+          CONCAT(B.nombre,' ', B.apellido) as nomAutor,
           A.id_categoria as idCategoria,
           C.nombre as nomCategoria,
           A.id_editorial as idEditorial,
@@ -87,7 +87,7 @@ class Libro {
           A.id_prestamo as id,
           A.id_libro as idLibro,
           B.id_autor as idAutor,
-          C.nombre as nomAutor,
+          CONCAT(C.nombre,' ', C.apellido) as nomAutor,
           B.id_categoria as idCategoria,
           D.nombre as nomCategoria,
           B.id_editorial as idEditorial,
@@ -98,7 +98,6 @@ class Libro {
           B.num_paginas as paginas,
           B.id_estado as idEstado,
           F.nombre as nomEstadoLibro,
-          A.fecha_prestamo as fechaPrestamo,
           A.fecha_devolucion as fechaDevolucion
           FROM prestamo A
           JOIN libro B ON A.id_libro = B.id_libro
@@ -107,6 +106,36 @@ class Libro {
           JOIN editorial E ON B.id_editorial = E.id_editorial
           JOIN estado_libro F ON B.id_estado = F.id_estado
           WHERE F.nombre = "Prestado"`;
+        try {
+            const result = await executeQuery(sql);
+            return result.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getlibrosPorAutor(autor) {
+        let sql = /*sql*/`
+          SELECT
+          A.id_libro as id,
+          A.id_autor as idAutor,
+          CONCAT(B.nombre,' ', B.apellido) as nomAutor,
+          A.id_categoria as idCategoria,
+          C.nombre as nomCategoria,
+          A.id_editorial as idEditorial,
+          D.nombre as nomEditorial,
+          A.titulo as titulo,
+          A.anio_publicacion as publicadoEn,
+          A.isbn as isbn,
+          A.num_paginas as paginas,
+          A.id_estado as idEstado,
+          E.nombre as nomEstadoLibro
+          FROM libro A
+          JOIN autor B ON A.id_autor = B.id_autor
+          JOIN categoria C ON A.id_categoria = C.id_categoria
+          JOIN editorial D ON A.id_editorial = D.id_editorial
+          JOIN estado_libro E ON A.id_estado = E.id_estado
+          WHERE CONCAT(B.nombre,' ',B.apellido) = \'${autor}\'`;
         try {
             const result = await executeQuery(sql);
             return result.data;

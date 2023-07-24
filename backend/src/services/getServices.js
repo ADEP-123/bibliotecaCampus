@@ -55,6 +55,12 @@ const getLibrosPrestadosService = async () => {
     return result;
 };
 
+const getLibrosPorAutorService = async (autor) => {
+    const libro = new Libro();
+    const result = await libro.getlibrosPorAutor(autor);
+    return result;
+};
+
 const getAllPrestamoService = async () => {
     const prestamo = new Prestamo();
     const result = await prestamo.getAllPrestamos();
@@ -76,6 +82,7 @@ export {
     getAllLibrosService,
     getLibrosDisponiblesService,
     getLibrosPrestadosService,
+    getLibrosPorAutorService,
     getAllPrestamoService,
     getAllReservaService
 }
