@@ -4,6 +4,7 @@ import Editorial from "../entitites/editorial.js";
 import EstadoLibro from "../entitites/estadoLibro.js";
 import Libro from "../entitites/libro.js";
 import Prestamo from "../entitites/presamo.js";
+import Reserva from "../entitites/reserva.js";
 import Usuario from "../entitites/usuario.js";
 
 const getAllUsuariosService = async () => {
@@ -48,6 +49,12 @@ const getAllPrestamoService = async () => {
     return result;
 };
 
+const getAllReservaService = async () => {
+    const reserva = new Reserva();
+    const result = await reserva.getAllReserva();
+    return result;
+};
+
 export {
     getAllUsuariosService,
     getAllAutoresService,
@@ -55,5 +62,6 @@ export {
     getAllEditorialesService,
     getAllEstadoLibrosService,
     getAllLibrosService,
-    getAllPrestamoService
+    getAllPrestamoService,
+    getAllReservaService
 }

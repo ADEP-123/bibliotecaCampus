@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAutoresController, getCategoriaController, getEditorialController, getEstadoLibroController, getLibroController, getUsuariosController } from "../controllers/getDataController.js";
+import { getAutoresController, getCategoriaController, getEditorialController, getEstadoLibroController, getLibroController, getReservaController, getUsuariosController } from "../controllers/getDataController.js";
 
 
 const getInitRoute = () => {
@@ -11,6 +11,7 @@ const getInitRoute = () => {
     router.get("/estadoLibros", getEstadoLibroController)
     router.get("/libros", getLibroController)
     router.get("/prestamos", getLibroController)
+    router.get("/reservas", getReservaController)
 
     return router;
 };

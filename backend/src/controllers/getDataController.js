@@ -1,4 +1,4 @@
-import { getAllAutoresService, getAllCategoriasService, getAllEditorialesService, getAllEstadoLibrosService, getAllLibrosService, getAllPrestamoService, getAllUsuariosService } from "../services/getServices.js";
+import { getAllAutoresService, getAllCategoriasService, getAllEditorialesService, getAllEstadoLibrosService, getAllLibrosService, getAllPrestamoService, getAllReservaService, getAllUsuariosService } from "../services/getServices.js";
 
 
 const getUsuariosController = async (req, res, next) => {
@@ -72,6 +72,16 @@ const getPrestamoController = async (req, res, next) => {
     }
 };
 
+const getReservaController = async (req, res, next) => {
+    try {
+        const { } = req.query
+        const result = await getAllReservaService();
+        res.status(200).json({ message: `se han encontrado ${result.length} resultados`, result })
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
+
 export {
     getUsuariosController,
     getAutoresController,
@@ -79,5 +89,6 @@ export {
     getEditorialController,
     getEstadoLibroController,
     getLibroController,
-    getPrestamoController
+    getPrestamoController,
+    getReservaController
 }
